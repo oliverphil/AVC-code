@@ -28,9 +28,9 @@ void turn(double degree, bool bool_right){
 	int right;
 	if (bool_right){
 		left = 100;
-		right = -150;		
+		right = -100;		
 	} else if (!bool_right){
-		left = -150;
+		left = -100;
 		right = 100;
 	} else {
 		return;
