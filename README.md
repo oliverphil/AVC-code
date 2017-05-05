@@ -19,5 +19,5 @@ Sensor alignment for best reading with minimum sensors
 
 Testing movement from week 1 code, including length of turns etc
 
-Seth: FreeCAD work for proving that Arthur hasn't seen everything
+Seth: Starting FreeCAD work for proving that Arthur hasn't seen everything
 
