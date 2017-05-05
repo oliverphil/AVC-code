@@ -1,6 +1,8 @@
 # AVC-code
 This is a repository for work on the C++ code for the AVC in ENGR101 at Vic Uni
 
+NEXT MEETING AS FULL TEAM: IN LAB THURSDAY 10AM
+
 Week 1 Checklist:
 
 Crosby: FreeCAD sizing for structure
