@@ -11,10 +11,6 @@ void sector2(){
   int previous_error = 0;
   while(true){
     take_picture()
-    char pix[320];
-    for(int i=0; i<320; i++){
-      pix[i] = get_pixel(i, 120, 3);
-    }
     int proportional_signal = proportional_signal();
     previous_error, int derivative_signal = derivative_signal(previous_error);
     int total_error = proportional_signal + derivative_signal;
