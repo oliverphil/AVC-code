@@ -1,14 +1,19 @@
 //AVC Challenge
 //Team:	BTN
 
-//Quadrant Name:	Curved Line
-//Quadrant Number:	2 of 4
+//Quadrant Name:	Curved Line & Straight Line
+//Quadrant Number:	2 & 3 of 4
 
 //RPi IP Address: 10.140.30.158
 //IMPORT libraries
 #include <stdio.h>
 #include <time.h>
 #include "E101.h"
+
+void back(){
+  set_motor(1, -20);
+  set_motor(2, 15);
+}
 
 void sector2(){
   double previous_error = 1;
@@ -19,7 +24,7 @@ void sector2(){
     int kd = 0.2;
     int proportional_signal;    
     int nwp = 0;
-    for (i=0, i<320, i++){
+    for (int i=0; i<320; i++){
         int pixel = get_pixel(i, 120, 3);
         if(pixel>127){
           nwp++;
@@ -35,12 +40,14 @@ void sector2(){
     previous_error = current_error;
     int speed = proportional_signal+derivative_signal;
     if(nwp>200){
-        speed = -80;
+        speed = -50;
         set_motor(1, speed);
         set_motor(2, -speed);
+    } else if(nwp<10){
+	back();
     } else {
-    set_motor(1, 100+speed);
-    set_motor(2, -100+speed);
+    set_motor(1, 50+speed);
+    set_motor(2, -50+speed);
     }
   }
 }
