@@ -5,7 +5,11 @@ void sector1(){
    send_to_server("Please");
    //receives message from the connected server
    char message[24];
-   receive_from_server(message); 
+   int count = 0;
+   while(message == null && count < 100){
+      receive_from_server(message); 
+      count++;
+   }
    //reply to server
   send_to_server(message);
   sleep1(0, 100000);
