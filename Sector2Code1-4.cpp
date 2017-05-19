@@ -39,7 +39,7 @@ void sector2(){
     derivative_signal = (current_error-previous_error)*kd;
     previous_error = current_error;
     int speed = proportional_signal+derivative_signal;
-    if(nwp>200){
+    if(nwp>250){
         speed = -50;
         set_motor(1, speed);
         set_motor(2, -speed);
