@@ -13,15 +13,15 @@ void sector1(){
    //sends a message to the connected server
    send_to_server("Please");
    //receives message from the connected server
-   char message[24];
+   char message[24] = "";
    int count = 0;
-   while(message == null && count < 100){
+   while(message == "" && count < 100){
       receive_from_server(message); 
       count++;
    }
    //reply to server
   send_to_server(message);
-  sleep1(, 500000);
+  sleep1(0, 500000);
 
   return;
 }
@@ -41,7 +41,7 @@ void sector2(){
     int proportional_signal;    
     int nwp = 0;
     for (int i=0; i<320; i++){
-        int pixel = get_pixel(i, 120, 3);
+        int pixel = get_pixel(120,i, 3);
         if(pixel>127){
           nwp++;
           pixel = 1;
