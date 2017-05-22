@@ -21,7 +21,7 @@ void sector1(){
    }
    //reply to server
   send_to_server(message);
-  sleep1(0, 100000);
+  sleep1(, 500000);
 
   return;
 }
@@ -77,6 +77,7 @@ void kill(){
 //RUN main method
 int main(){
 	init(); //INIT rasberry pi components //NOTE: should we implement a test method to ensure each component is operating correctly?
+	sector1();
 	sector2();
 }
 
