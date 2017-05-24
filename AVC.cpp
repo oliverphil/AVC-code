@@ -38,47 +38,49 @@ void sector2(){
     double proportional_signal;
     int nwp = 0;
     take_picture();
-    for (int i=0; i<320; i++){
-        double pixel = get_pixel(120, i, 3);
-	if(pixel>127){
-          nwp++;
-          pixel = 1;
-//	printf("%f\n", pixel);
-        } else {
-          pixel = 0;
-//	printf("%f\n", pixel);
-        }
-        int error = (i-160)*pixel;
-        current_error += error;
-    }
-    current_error /= nwp;
-    proportional_signal = (current_error)*kp;
-    derivative_signal = (current_error-previous_error)*kd;
-    previous_error = current_error;
-    double speed = (proportional_signal+derivative_signal);
-    if(nwp>200){
-        speed = -50;
-        set_motor(1, speed);
-        set_motor(2, speed);
-    } else if(nwp==0){
-           back();
-	   sleep1(0, 1500);
-    } else {
-	speed = (proportional_signal+derivative_signal);
-	if(speed>150){
-	   speed = 150;
-	}else if(speed<-150){
-	   speed = -150;
-	}
-    if(current_error > 0){
-        set_motor(1, (int)75-speed);
-        set_motor(2, (int)-75);
-    } else {
-	set_motor(1, 75);
-	set_motor(2, -75-speed);
-    }
-    }
-	sleep1(0, 6000);
+    if(get_pixel(120, 160, 0)>200 && get_pixel(120, 160, 1)<80 && get_pixel(120, 160, 2)<80){
+	    for (int i=0; i<320; i++){
+		double pixel = get_pixel(120, i, 3);
+		if(pixel>127){
+		  nwp++;
+		  pixel = 1;
+	//	printf("%f\n", pixel);
+		} else {
+		  pixel = 0;
+	//	printf("%f\n", pixel);
+		}
+		int error = (i-160)*pixel;
+		current_error += error;
+	    }
+	    current_error /= nwp;
+	    proportional_signal = (current_error)*kp;
+	    derivative_signal = (current_error-previous_error)*kd;
+	    previous_error = current_error;
+	    double speed = (proportional_signal+derivative_signal);
+	    if(nwp>200){
+		speed = -50;
+		set_motor(1, speed);
+		set_motor(2, speed);
+	    } else if(nwp==0){
+		   back();
+		   sleep1(0, 1500);
+	    } else {
+		speed = (proportional_signal+derivative_signal);
+		if(speed>150){
+		   speed = 150;
+		}else if(speed<-150){
+		   speed = -150;
+		}
+	    if(current_error > 0){
+		set_motor(1, (int)75-speed);
+		set_motor(2, (int)-75);
+	    } else {
+		set_motor(1, 75);
+		set_motor(2, -75-speed);
+	    }
+	    }
+		sleep1(0, 6000);
+	  }
   }
 }
 
