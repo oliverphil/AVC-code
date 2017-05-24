@@ -9,62 +9,76 @@
 
 void sector1(){
    //connects to server with the ip address 130.195.6.196
-   connect_to_server("130.195.6.196", 1024);
+   char ip[15] = {'1','3', '0', '.', '1', '9', '5', '.', '6', '.', '1', '9', '6'};
+   connect_to_server(ip, 1024);
    //sends a message to the connected server
-   send_to_server("Please");
+   char ask[24] = {'P', 'l', 'e', 'a', 's', 'e', 'h', 'e'};
+    send_to_server(ask);
    //receives message from the connected server
-   char message[24] = "";
-   int count = 0;
-   while(message == "" && count < 100){
-      receive_from_server(message); 
-      count++;
-   }
+   char message[24];
+   receive_from_server(message);
    //reply to server
   send_to_server(message);
   sleep1(0, 500000);
-
   return;
 }
 
 void back(){
-  set_motor(1, -20);
-  set_motor(2, 15);
+  set_motor(1, -40);
+  set_motor(2, 130);
 }
 
 void sector2(){
   double previous_error = 1;
-  int derivative_signal;
+  double derivative_signal;
   while(true){
     double current_error = 0;
-    int kp = 0.5;
-    int kd = 0.2;
-    int proportional_signal;    
+    double kp = 0.5;
+    double kd = 0.8;
+    double proportional_signal;
     int nwp = 0;
+    take_picture();
     for (int i=0; i<320; i++){
-        int pixel = get_pixel(120,i, 3);
-        if(pixel>127){
+        double pixel = get_pixel(120, i, 3);
+	if(pixel>127){
           nwp++;
           pixel = 1;
+//	printf("%f\n", pixel);
         } else {
           pixel = 0;
+//	printf("%f\n", pixel);
         }
-        int error = (i-160)*pixel;        
+        int error = (i-160)*pixel;
         current_error += error;
     }
-    proportional_signal = (current_error/nwp)*kp;
+    current_error /= nwp;
+    proportional_signal = (current_error)*kp;
     derivative_signal = (current_error-previous_error)*kd;
     previous_error = current_error;
-    int speed = proportional_signal+derivative_signal;
-    if(nwp>250){
+    double speed = (proportional_signal+derivative_signal);
+    if(nwp>200){
         speed = -50;
         set_motor(1, speed);
-        set_motor(2, -speed);
-    } else if(nwp<10){
-	back();
+        set_motor(2, speed);
+    } else if(nwp==0){
+           back();
+	   sleep1(0, 1500);
     } else {
-    set_motor(1, 50+speed);
-    set_motor(2, -50+speed);
+	speed = (proportional_signal+derivative_signal);
+	if(speed>150){
+	   speed = 150;
+	}else if(speed<-150){
+	   speed = -150;
+	}
+    if(current_error > 0){
+        set_motor(1, (int)75-speed);
+        set_motor(2, (int)-75);
+    } else {
+	set_motor(1, 75);
+	set_motor(2, -75-speed);
     }
+    }
+	sleep1(0, 6000);
   }
 }
 
@@ -76,7 +90,7 @@ void kill(){
 
 //RUN main method
 int main(){
-	init(); //INIT rasberry pi components //NOTE: should we implement a test method to ensure each component is operating correctly?
+	init(); //INIT rasberry pi components 
 	sector1();
 	sector2();
 }
