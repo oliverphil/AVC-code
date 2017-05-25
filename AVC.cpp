@@ -44,10 +44,8 @@ void sector2(){
 		if(pixel>127){
 		  nwp++;
 		  pixel = 1;
-	//	printf("%f\n", pixel);
 		} else {
 		  pixel = 0;
-	//	printf("%f\n", pixel);
 		}
 		int error = (i-160)*pixel;
 		current_error += error;
