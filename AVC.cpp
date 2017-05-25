@@ -3,6 +3,8 @@
 
 //RPi IP Address: 10.140.30.158
 //IMPORT libraries
+
+//sensors: 0-left 1-right 2-front
 #include <stdio.h>
 #include <time.h>
 #include "E101.h"
