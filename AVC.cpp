@@ -80,7 +80,9 @@ void sector2(){
 	    }
 	    }
 		sleep1(0, 6000);
-	  }
+	  } else {
+	    return;
+    }
   }
 }
 
