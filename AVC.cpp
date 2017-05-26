@@ -62,7 +62,7 @@ void sector2(){
 	    if(nwp>200){
 		speed = -50;
 		set_motor(1, speed);
-		set_motor(2, speed);
+		set_motor(2, -speed);
 	    } else if(nwp==0){
 		   back();
 		   sleep1(0, 1500);
@@ -90,15 +90,15 @@ void sector2(){
 
 void sector4(){
     double current_error = 0;
-    double kp = 0.5;
+    double kp = 0.1;
     double kd = 0.8;
     double proportional_signal;
-    current_error = adc_reading(0)-adc_reading(1); 
+    current_error = (read_analog(1)-20)-read_analog(0); 
     proportional_signal = current_error*kp;
     derivative_signal = (current_error-previous_error)*kd;
     previous_error = current_error;
     double speed = (proportional_signal+derivative_signal);
-    if(adc_reading(2)<500){
+    if(read_analog(2)<500){
 	if(current_error > 0){
 	    set_motor(1, (int)50-speed);
 	    set_motor(2, -50);
