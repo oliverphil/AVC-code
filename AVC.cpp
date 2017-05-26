@@ -9,6 +9,8 @@
 #include <time.h>
 #include "E101.h"
 
+int count = 0;
+
 void sector1(){
    //connects to server with the ip address 130.195.6.196
    char ip[15] = {'1','3', '0', '.', '1', '9', '5', '.', '6', '.', '1', '9', '6'};
@@ -84,6 +86,42 @@ void sector2(){
 	    return;
     }
   }
+}
+
+void sector4(){
+    double current_error = 0;
+    double kp = 0.5;
+    double kd = 0.8;
+    double proportional_signal;
+    current_error = adc_reading(0)-adc_reading(1); 
+    proportional_signal = current_error*kp;
+    derivative_signal = (current_error-previous_error)*kd;
+    previous_error = current_error;
+    double speed = (proportional_signal+derivative_signal);
+    if(adc_reading(2)<500){
+	if(current_error > 0){
+	    set_motor(1, (int)50-speed);
+	    set_motor(2, -50);
+	} else {
+	    set_motor(1, 50);
+	    set_motor(2, -50-speed);
+	}
+    sleep1(0, 6000);
+    }else if(count<10){
+	set_motor(1, 0);
+	set_motor(2, 0);
+	sleep1(1, 0);
+    }else{
+	if(speed > 0){
+	    set_motor(1, 50-speed);
+	    set_motor(2, 0);
+	else{
+	    set_motor(1, 0);
+	    set_motor(2, -50-speed);
+	}
+	count = 0;
+	sleep1(0, 6000);
+    }
 }
 
 //OUTPUT. SET wheel speed to zero
