@@ -99,12 +99,24 @@ void sector4(){
     previous_error = current_error;
     double speed = (proportional_signal+derivative_signal);
     if(read_analog(2)<500){
-	if(current_error > 0){
+	if(current_error > 0 && current_error < 100){
 	    set_motor(1, (int)50-speed);
 	    set_motor(2, -50);
-	} else {
+	} else if(current_error < 0  && current_error > -100) {
 	    set_motor(1, 50);
 	    set_motor(2, -50-speed);
+	} else if(read_analog(2)<400){
+	    set_motor(1, 50);
+	    set_motor(2, -50);	
+	} else {
+	    if(current_error>0){
+		set_motor(1, -50);
+		set_motor(2, -50);
+	    }else{
+		set_motor(1, 50);
+		set_motor(2, 50);
+	    }
+	    sleep1(0, 750000);
 	}
     sleep1(0, 6000);
     }else if(count<10){
