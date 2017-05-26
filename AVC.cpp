@@ -93,6 +93,7 @@ void sector4(){
     double kp = 0.1;
     double kd = 0.8;
     double proportional_signal;
+	while(true){
     current_error = (read_analog(1)-20)-read_analog(0); 
     proportional_signal = current_error*kp;
     derivative_signal = (current_error-previous_error)*kd;
@@ -133,6 +134,7 @@ void sector4(){
 	}
 	count = 0;
 	sleep1(0, 6000);
+    }
     }
 }
 
