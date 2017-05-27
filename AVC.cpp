@@ -4,7 +4,7 @@
 //RPi IP Address: 10.140.30.158
 //IMPORT libraries
 
-//sensors: 0-left 1-right 2-front
+//sensors: 0-left 1-right 2-front 
 #include <stdio.h>
 #include <time.h>
 #include "E101.h"
@@ -40,7 +40,7 @@ void sector2(){
     double kp = 0.5;
     double kd = 0.8;
     double proportional_signal;
-    int nwp = 0;
+    int nwp = 0; //number of white pixels
     take_picture();
     if(get_pixel(120, 160, 0)>200 && get_pixel(120, 160, 1)<80 && get_pixel(120, 160, 2)<80){
 	    for (int i=0; i<320; i++){
