@@ -111,7 +111,7 @@ void sector4(){
 	} else if(read_analog(2)<400){
 	    double temp_error = 0;
 	    if(current_error > 0){
-		temp_error = 500 - read_analog(1);
+		temp_error = 500 - (read_analog(1)-20);
 		set_motor(1, 50+temp_error);
 	        set_motor(2, -50);	
 	    }else{
