@@ -96,53 +96,53 @@ void sector4(){
     double derivative_signal;
     double previous_error = 0;
 	while(true){
-    current_error = (read_analog(1)-20)-read_analog(0); 
-    proportional_signal = current_error*kp;
-    derivative_signal = (current_error-previous_error)*kd;
-    previous_error = current_error;
-    double speed = (proportional_signal+derivative_signal);
-    if(read_analog(2)<500 || current_error > 50){
-	if(current_error > 0 && current_error < 100){
-	    set_motor(1, (int)50);
-	    set_motor(2, -50-speed);
-	} else if(current_error < 0  && current_error > -100) {
-	    set_motor(1, 50-speed);
-	    set_motor(2, -50);
-	} else if(read_analog(2)<400){
-	    double temp_error = 0;
-	    if(current_error > 0){
-		temp_error = 500 - (read_analog(1)-20);
-		set_motor(1, 50+temp_error);
-	        set_motor(2, -50);	
-	    }else{
-		temp_error = 500 - read_analog(0);
-		 set_motor(1, 50);
-	        set_motor(2, -50-temp_error);
-	    }
-	   	
-	} else {
-	    if(current_error>0){
-		set_motor(1, -50);
-		set_motor(2, -50);
+	    current_error = (read_analog(1)-20)-read_analog(0); 
+	    proportional_signal = current_error*kp;
+	    derivative_signal = (current_error-previous_error)*kd;
+	    previous_error = current_error;
+	    double speed = (proportional_signal+derivative_signal);
+	    if(read_analog(2)<500 || current_error > 50){
+		if(current_error > 0 && current_error < 100){
+		    set_motor(1, (int)50);
+		    set_motor(2, -50-speed);
+		} else if(current_error < 0  && current_error > -100) {
+		    set_motor(1, 50-speed);
+		    set_motor(2, -50);
+		} else if(read_analog(2)<400){
+		    double temp_error = 0;
+		    if(current_error > 0){
+			temp_error = 500 - (read_analog(1)-20);
+			set_motor(1, 50+temp_error);
+			set_motor(2, -50);	
+		    }else{
+			temp_error = 500 - read_analog(0);
+			 set_motor(1, 50);
+			set_motor(2, -50-temp_error);
+		    }
+
+		} else {
+		    if(current_error>0){
+			set_motor(1, -50);
+			set_motor(2, -50);
+		    }else{
+			set_motor(1, 50);
+			set_motor(2, 50);
+		    }
+		    sleep1(0, 750000);
+		}
+	    sleep1(0, 6000);
+	    }else if(count<10){
+		set_motor(1, 0);
+		set_motor(2, 0);
+		sleep1(1, 0);
+		count++;
 	    }else{
 		set_motor(1, 50);
-		set_motor(2, 50);
+		set_motor(2, -50);
+		count = 0;
+		sleep1(0, 6000);
 	    }
-	    sleep1(0, 750000);
-	}
-    sleep1(0, 6000);
-    }else if(count<10){
-	set_motor(1, 0);
-	set_motor(2, 0);
-	sleep1(1, 0);
-	count++;
-    }else{
-	set_motor(1, 50);
-	set_motor(2, -50);
-	count = 0;
-	sleep1(0, 6000);
-    }
-    }
+        }
 }
 
 //OUTPUT. SET wheel speed to zero
